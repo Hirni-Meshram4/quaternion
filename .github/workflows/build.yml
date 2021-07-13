@@ -10,7 +10,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        #os: [ubuntu-latest, windows-latest, macos-latest]
         include:
           - os: ubuntu-latest
             archs: auto
@@ -23,7 +23,7 @@ jobs:
 
     env:
       CIBW_SKIP: cp27-* cp35-* pp*
-      CIBW_ARCHS: ${{matrix.archs}}
+      #CIBW_ARCHS: ${{matrix.archs}}
       CIBW_BEFORE_BUILD: python -c "print(('#'*130+'\n')*10)" && pip install "numpy>=1.13"
       CIBW_TEST_REQUIRES: pytest pytest-cov
       CIBW_TEST_COMMAND: "pytest {project}/tests"
@@ -56,47 +56,6 @@ jobs:
       - uses: actions/upload-artifact@v2
         with:
           path: ./wheelhouse/*.whl
-
-  build_aarch64_wheels:
-    name: "Build aarch64 wheel"
-    strategy:
-      #matrix:
-        #pyver: [cp36-cp36m, cp37-cp37m, cp38-cp38, cp39-cp39]
-      fail-fast: false
-    runs-on: ubuntu-latest
-    env:
-      img: quay.io/pypa/manylinux2014_aarch64
-      CIBW_SKIP: cp27-* cp35-* pp*
-      CIBW_BEFORE_BUILD: python -c "print(('#'*130+'\n')*10)" && pip install "numpy>=1.13"
-      CIBW_TEST_REQUIRES: pytest pytest-cov
-      CIBW_TEST_COMMAND: "pytest {project}/tests"
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v2
-      
-    - uses: actions/setup-python@v2
-      name: Install Python
-      
-    - name: Set up QEMU
-      id: qemu
-      uses: docker/setup-qemu-action@v1
-      
-    - name: Build Wheel
-      run: |
-            docker run --rm -v ${{ github.workspace }}:/ws:rw --workdir=/ws \
-            ${{ env.img }} \
-            bash -exc 'yum install sudo -y && \
-            sudo yum install -y epel-release && \
-            sudo yum-config-manager --enable epel && \
-            sudo yum install python3 -y && \
-            python3 --version && \
-            #sudo yum install python3-pip –y && \
-            python3 -m pip install --upgrade pip && \
-            python3 -m pip install cibuildwheel && \
-            python3 -m cibuildwheel --platform linux --output-dir wheelhouse'
-    - uses: actions/upload-artifact@v2
-      with:
-        path: ./wheelhouse/*.whl
 
   build_sdist:
     name: Build source distribution
