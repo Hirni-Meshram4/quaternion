@@ -78,7 +78,7 @@ jobs:
             #sudo yum install python3-pip –y && \
             python3 -m pip install --upgrade pip && \
             python3 -m pip install cibuildwheel && \
-            python3 -m cibuildwheel --output-dir wheelhouse'
+            python3 -m cibuildwheel --platform aarch64 --output-dir wheelhouse'
     - uses: actions/upload-artifact@v2
       with:
         path: ./wheelhouse/*.whl
