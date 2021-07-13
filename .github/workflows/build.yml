@@ -10,16 +10,13 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        #os: [ubuntu-latest, windows-latest, macos-latest]
-        include:
-          - os: ubuntu-latest
-            archs: auto
-          - os: ubuntu-latest
-            archs: aarch64
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        archs: [auto, aarch64]
+        exclude:
           - os: windows-latest
-            archs: auto
+            archs: aarch64
           - os: macos-latest
-            archs: auto
+            archs: aarch64
 
     env:
       CIBW_SKIP: cp27-* cp35-* pp*
