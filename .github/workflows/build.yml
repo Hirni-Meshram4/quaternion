@@ -23,7 +23,7 @@ jobs:
 
     env:
       CIBW_SKIP: cp27-* cp35-* pp*
-      CIBW_ARCHS: ${{matrix.arch}}
+      CIBW_ARCHS: ${{matrix.archs}}
       CIBW_BEFORE_BUILD: python -c "print(('#'*130+'\n')*10)" && pip install "numpy>=1.13"
       CIBW_TEST_REQUIRES: pytest pytest-cov
       CIBW_TEST_COMMAND: "pytest {project}/tests"
@@ -35,7 +35,7 @@ jobs:
         name: Install Python
 
       - name: Set up QEMU
-        if: matrix.arch == 'aarch64'
+        if: matrix.archs == 'aarch64'
         id: qemu
         uses: docker/setup-qemu-action@v1
       
