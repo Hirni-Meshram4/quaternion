@@ -58,15 +58,19 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
+      
+    - uses: actions/setup-python@v2
+      name: Install Python
+      
     - name: Set up QEMU
       id: qemu
       uses: docker/setup-qemu-action@v1
+      
     - name: Build Wheel
       run: |
             docker run --rm -v ${{ github.workspace }}:/ws:rw --workdir=/ws \
             ${{ env.img }} \
-            bash -exc 'yum install python-pip && \
-            python -m pip install --upgrade pip && \
+            bash -exc 'python -m pip install --upgrade pip && \
             python -m pip install cibuildwheel && \
             python -m cibuildwheel --output-dir wheelhouse'
     - uses: actions/upload-artifact@v2
