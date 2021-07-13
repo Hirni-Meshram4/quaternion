@@ -71,9 +71,8 @@ jobs:
             docker run --rm -v ${{ github.workspace }}:/ws:rw --workdir=/ws \
             ${{ env.img }} \
             bash -exc 'python --version && \
-            python3 --version && \
             yum install sudo -y && \
-            sudo yum install python3-pip –y && \
+            sudo yum install python-pip –y && \
             python -m pip install --upgrade pip && \
             python -m pip install cibuildwheel && \
             python -m cibuildwheel --output-dir wheelhouse'
