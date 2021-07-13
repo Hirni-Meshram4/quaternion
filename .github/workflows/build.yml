@@ -71,7 +71,8 @@ jobs:
             docker run --rm -v ${{ github.workspace }}:/ws:rw --workdir=/ws \
             ${{ env.img }} \
             bash -exc 'yum install sudo -y && \
-            sudo yum update && \
+            sudo yum install -y epel-release && \
+            sudo yum-config-manager --enable epel && \
             sudo yum install python3 -y && \
             python3 --version && \
             sudo yum install python3-pip –y && \
